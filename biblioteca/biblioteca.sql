@@ -4,7 +4,7 @@ CREATE DATABASE biblioteca
 \c biblioteca
 --Creacion de tablas-- 
 CREATE TABLE "Ciudades" (id serial NOT NULL,nombre character varying(15) NOT NULL,PRIMARY KEY (id));
-CREATE TABLE "Socios" (rut character varying(15) NOT NULL,id_ciudad integer NOT NULL,nombre character varying(15) \NOT NULL,apellido character varying(15) NOT NULL,direccion character varying(15) NOT NULL,telefono integer NOT NULL,FOREIGN KEY(id_ciudad) REFERENCES "Ciudades"(id),PRIMARY KEY (rut));
+CREATE TABLE "Socios" (rut character varying(15) NOT NULL,id_ciudad integer NOT NULL,nombre character varying(15) NOT NULL,apellido character varying(15) NOT NULL,direccion character varying(15) NOT NULL,telefono integer NOT NULL,FOREIGN KEY(id_ciudad) REFERENCES "Ciudades"(id),PRIMARY KEY (rut));
 CREATE TABLE "Libros" (isbn character varying(20) NOT NULL,titulo character varying(25) NOT NULL,num_pag integer NOT NULL,PRIMARY KEY (isbn));
 CREATE TABLE "Prestamos" (id serial NOT NULL,rut character varying(15) NOT NULL,isbn character varying(20) NOT NULL,fecha_inicio date NOT NULL,fecha_e_d date NOT NULL,fecha_r_d date NOT NULL,FOREIGN KEY(rut) REFERENCES "Socios"(rut),FOREIGN KEY(isbn) REFERENCES "Libros"(isbn),PRIMARY KEY (id));
 CREATE TABLE "Autores" (cod_autor serial NOT NULL,nombre character varying(15) NOT NULL,apellido character varying(15) NOT NULL,nacimiento integer,muerte integer,PRIMARY KEY (cod_autor));
@@ -20,4 +20,4 @@ CREATE TABLE "Rels_lib_aut" (id serial NOT NULL,cod_autor integer NOT NULL,isbn 
 SELECT * FROM "Libros" WHERE num_pag<300;
 SELECT * FROM "Autores" WHERE nacimiento>1970;
 SELECT titulo,count(l.isbn) "N°" FROM "Libros" l INNER JOIN "Prestamos" p on p.isbn=l.isbn GROUP BY titulo ORDER BY "N°" DESC;
-SELECT rut "RUT",100*(f_r_d-f_e_d) "Multa" FROM "Prestamos" WHERE fecha_r_d-fecha_e_d>0;
+SELECT id,rut "RUT",100*(fecha_r_d-fecha_e_d) "Multa" FROM "Prestamos" WHER\E fecha_r_d-fecha_e_d>0;

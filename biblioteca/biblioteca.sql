@@ -19,7 +19,6 @@ CREATE TABLE "Rels_lib_aut" (id serial NOT NULL,cod_autor integer NOT NULL,isbn 
 --Busquedas--
 SELECT * FROM "Libros" WHERE num_pag<300;
 SELECT * FROM "Autores" WHERE nacimiento>1970;
-SELECT titulo FROM "Libros" l INNER JOIN "Prestamos" p on p.isbn=l.isbn WHERE select (max(n) from (select isbn,count(isbn) n from "Prestamos" GROUP BY isbn))=count("Libros".isbn);
+SELECT titulo,count(l.isbn) "N°" FROM "Libros" l INNER JOIN "Prestamos" p on p.isbn=l.isbn GROUP BY l.isbn HAVING count(l.isbn)=(select max(n) from (select isbn,count(isbn) n from "Prestamos" GROUP BY isbn) p);
 SELECT id,rut "RUT",100*(fecha_r_d-fecha_e_d) "Multa" FROM "Prestamos" WHERE fecha_r_d-fecha_e_d>0;
 --
-select max(n) in (isbn,count(isbn) n from "Prestamos"GROUP BY isbn);
